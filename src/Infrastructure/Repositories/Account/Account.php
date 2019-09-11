@@ -2,10 +2,9 @@
 
 namespace Infrastructure\Repositories\Account;
 
-use Domain\Account\AccountCollection;
-use Domain\Account\AccountService;
 use Domain\Account\Contracts\AccountRepositoryInterface;
-use Infrastructure\Adapters\FileAdapter;
+use Infrastructure\Adapters\File\FileAdapter;
+use Infrastructure\Adapters\Lbitcoin\LbitcoinAdapter;
 
 /**
  *
@@ -26,8 +25,23 @@ class Account implements AccountRepositoryInterface
     }
 
     /**
+     * @param array $data
+     * @return \Domain\Account\Account
+     */
+    public static function build(array $data): \Domain\Account\Account
+    {
+        return
+            (new \Domain\Account\Account())
+                ->setId($data["id"])
+                ->setLogin($data["login"])
+                ->setSecretKey($data["secretKey"])
+                ->setApikey($data["apikey"]);
+
+    }
+
+    /**
      * @param \Domain\Account\Account $account
-     * @throws \Infrastructure\Adapters\FileAdapterException
+     * @throws \Infrastructure\Adapters\FIle\FileAdapterException
      */
     public function save(\Domain\Account\Account $account): void
     {
@@ -43,7 +57,7 @@ class Account implements AccountRepositoryInterface
     /**
      * @param $login
      * @return \Domain\Account\Account|null
-     * @throws \Infrastructure\Adapters\FileAdapterException
+     * @throws \Infrastructure\Adapters\FIle\FileAdapterException
      */
     public function findByLogin($login): ?\Domain\Account\Account
     {
@@ -59,18 +73,16 @@ class Account implements AccountRepositoryInterface
 
 
     /**
-     * @param array $data
-     * @return \Domain\Account\Account
+     * @param \Domain\Account\Account $account
+     * @throws \Infrastructure\Adapters\FIle\FileAdapterException
      */
-    public static function build(array $data): \Domain\Account\Account
+    public function updateBalance(\Domain\Account\Account $account): void
     {
-        return
-            (new \Domain\Account\Account())
-                ->setId($data["id"])
-                ->setLogin($data["login"])
-                ->setSecretKey($data["secretKey"])
-                ->setApikey($data["apikey"]);
-
+        $lBitIcoin = new LbitcoinAdapter($account->getApikey(),$account->getSecretKey());
+        $account->setBalance(
+            (float)$lBitIcoin->getWalletBalance()
+        );
+        $this->save($account);
     }
 
 }

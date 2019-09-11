@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Infrastructure\Adapters;
+namespace Infrastructure\Adapters\FIle;
 
 
 class FileAdapter

@@ -4,7 +4,7 @@
 use Application\Console\AddAccount;
 use Application\Console\SyncBalance;
 use Domain\Account\AccountService;
-use Infrastructure\Adapters\FileAdapter;
+use Infrastructure\Adapters\File\FileAdapter;
 use Infrastructure\Repositories\Account\Account;
 use Symfony\Component\Console\Application;
 
@@ -20,7 +20,7 @@ if(!class_exists(Application::class)){
 
 $accountService = new AccountService(
     new Account(
-        new FileAdapter(BASEPATH . '/cache')
+        new FileAdapter(BASEPATH . '/cache/accounts')
     )
 );
 

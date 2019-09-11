@@ -21,4 +21,9 @@ interface AccountRepositoryInterface
      */
     public function findByLogin($login): ?Account;
 
+    /**
+     * @param Account $account
+     */
+    public function updateBalance(Account $account): void ;
+
 }
