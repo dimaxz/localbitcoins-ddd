@@ -50,6 +50,8 @@ class SyncBalance extends Command
 
         try{
 
+            $output->writeln("Start process...");
+
             $this->accountService->syncBalanceAndRate($login);
 
             $output->writeln("Sync success!");

@@ -4,7 +4,7 @@ namespace Domain\Account;
 
 use Domain\Account\Contracts\AccountRepositoryInterface;
 use Domain\Account\Exceptions\AccountException;
-
+use Domain\Rate\Contracts\RateRepositoryInterface;
 
 
 /**
@@ -15,14 +15,16 @@ use Domain\Account\Exceptions\AccountException;
 class AccountService
 {
     protected $repo;
+    protected $rateRepo;
 
     /**
      * AccountService constructor.
      * @param AccountRepositoryInterface $repo
      */
-    public function __construct(AccountRepositoryInterface $repo)
+    public function __construct(AccountRepositoryInterface $repo, RateRepositoryInterface $rateRepo)
     {
         $this->repo = $repo;
+        $this->rateRepo = $rateRepo;
     }
 
     /**
@@ -58,48 +60,55 @@ class AccountService
 
     /**
      * @param $login
+     * @param int $minutes - лимит в минутах при желании можно указать и больше,0 - бесконечно
      * @throws AccountException
      */
-    public function syncBalanceAndRate($login)
+    public function syncBalanceAndRate($login, $minutes = 10)
     {
 
-
-        if (!$user = $this->repo->findByLogin($login)) {
+        if (!$account = $this->repo->findByLogin($login)) {
             throw new AccountException("account not found");
         }
 
         try {
-            $this->process($user);
+            $this->process($account, $minutes);
+
         } catch (\Exception $e) {
             throw new AccountException($e->getMessage());
         }
     }
 
     /**
-     * бесконечный процесс
+     * бесконечный процесс, но с лимитом
      * @param Account $account
+     * @param int $minutes лимит в минутах при желании можно указать и больше,0 - бесконечно
      */
-    private function process(Account $account)
+    private function process(Account $account, $minutes)
     {
 
-        $fstart = $start = time();
+        $fstart = $start = $startBalance = time();
 
-        $limit = 60 * 5;//5 min
+        $limit = 60 * $minutes;//10 min
 
-        $res = true;
+        $process = true;
 
-        while ($res) {
+        while ($process) {
 
-            $tek = time() - $start;
-
-            if ($tek >= 10) {
-                $start = time();
+            //обновление баланса аккаунта 1 раз в 60 сек
+            if ((time() - $startBalance) >= 60) {
+                $startBalance = time();
                 $this->repo->updateBalance($account);
             }
 
+            //создание курсов аккаунта раз в 10 сек
+            if ((time() - $start) >= 10) {
+                $start = time();
+                $this->rateRepo->createRate($account);
+            }
+
             //выходим если слишком долго
-            if ((time() - $fstart) >= $limit) {
-                $res = false;
+            if ($limit > 0 && (time() - $fstart) >= $limit) {
+                $process = false;
             }
         }
     }

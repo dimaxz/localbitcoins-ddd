@@ -5,12 +5,13 @@ use Application\Console\AddAccount;
 use Application\Console\SyncBalance;
 use Domain\Account\AccountService;
 use Infrastructure\Adapters\File\FileAdapter;
-use Infrastructure\Repositories\Account\Account;
+use Infrastructure\Repositories\Account;
+use Infrastructure\Repositories\Rate;
 use Symfony\Component\Console\Application;
 
-define('BASEPATH', realpath(__DIR__."/../"));
 
-require_once BASEPATH.'/bootstrap/prepare.php';
+
+require_once __DIR__. '/../bootstrap/prepare.php';
 
 
 if(!class_exists(Application::class)){
@@ -21,6 +22,9 @@ if(!class_exists(Application::class)){
 $accountService = new AccountService(
     new Account(
         new FileAdapter(BASEPATH . '/cache/accounts')
+    ),
+    new Rate(
+        new FileAdapter(BASEPATH . '/cache/rates')
     )
 );
 

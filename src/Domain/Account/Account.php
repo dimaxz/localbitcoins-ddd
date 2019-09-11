@@ -4,9 +4,11 @@
 namespace Domain\Account;
 
 
-class Account
+use Repo\Concrete\AbstractEntity;
+
+class Account extends AbstractEntity
 {
-    protected $id;
+
     protected $login;
     protected $apikey;
     protected $secretKey;
@@ -15,14 +17,14 @@ class Account
      */
     protected $balance = 0;
 
-    public function toArray(){
+    public function toArray():array{
         return get_object_vars($this);
     }
 
     /**
      * @return float
      */
-    public function getBalance(): float
+    public function getBalance(): string
     {
         return $this->balance;
     }
@@ -31,30 +33,12 @@ class Account
      * @param float $balance
      * @return Account
      */
-    public function setBalance(float $balance): Account
+    public function setBalance(string $balance): Account
     {
         $this->balance = $balance;
         return $this;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getId():?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     * @return Account
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-        return $this;
-    }
 
     /**
      * @return mixed
@@ -109,5 +93,6 @@ class Account
         $this->secretKey = $secretKey;
         return $this;
     }
+
 
 }

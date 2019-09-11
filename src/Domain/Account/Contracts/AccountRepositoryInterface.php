@@ -3,16 +3,18 @@
 namespace Domain\Account\Contracts;
 
 use Domain\Account\Account;
-use Domain\Account\AccountCollection;
 use Domain\Account\AccountService;
+use Repo\CrudRepositoryInterface;
+use Repo\MapperInterface;
+use Repo\EntityInterface;
 
-interface AccountRepositoryInterface
+interface AccountRepositoryInterface extends CrudRepositoryInterface, MapperInterface
 {
 
     /**
      * @param Account $account
      */
-    public function save(Account $account): void;
+    public function save(EntityInterface $account): void;
 
 
     /**

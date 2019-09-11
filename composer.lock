@@ -4,8 +4,69 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "695703207c2738a74e32e0c96987ef47",
+    "content-hash": "45ba932dce94c5e89ec355b59476473a",
     "packages": [
+        {
+            "name": "dimaxz/activetable",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dimaxz/ActiveTable.git",
+                "reference": "85eec4587f6ab548a2b98bf4830d9933670787e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dimaxz/ActiveTable/zipball/85eec4587f6ab548a2b98bf4830d9933670787e4",
+                "reference": "85eec4587f6ab548a2b98bf4830d9933670787e4",
+                "shasum": ""
+            },
+            "require": {
+                "dimaxz/repository": "dev-master",
+                "php": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ActiveTableEngine\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "ActiveTable Engine, grid+form",
+            "time": "2019-09-11T22:22:15+00:00"
+        },
+        {
+            "name": "dimaxz/repository",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dimaxz/repository.git",
+                "reference": "083a8576b1847067e4882cbf345b85711fddce4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dimaxz/repository/zipball/083a8576b1847067e4882cbf345b85711fddce4c",
+                "reference": "083a8576b1847067e4882cbf345b85711fddce4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Repo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Lanets Dmitriy",
+                    "email": "dim@lanets.tw1.ru"
+                }
+            ],
+            "description": "repository interfaces",
+            "time": "2019-05-31T07:19:07+00:00"
+        },
         {
             "name": "nikic/fast-route",
             "version": "v1.3.0",

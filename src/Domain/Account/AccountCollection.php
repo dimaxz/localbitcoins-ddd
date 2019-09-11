@@ -1,74 +1,19 @@
 <?php
 
-
 namespace Domain\Account;
 
+use Repo\CollectionInterface;
+use Repo\Concrete\AbstractCollection;
 
-class AccountCollection implements \ArrayAccess, \Iterator
+/**
+ * Class AccountCollection
+ * @package Domain\Account
+ */
+class AccountCollection extends AbstractCollection implements CollectionInterface
 {
-
-    protected $data = [];
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
+    protected function getEntityClass(): string
     {
-        return isset ($this->data[$offset]);
+        return Account::class;
     }
-
-    /**
-     * @param mixed $offset
-     * @return mixed|null
-     */
-    public function offsetGet($offset)
-    {
-        return $this->offsetExists($offset) ? $this->data[$offset] : null;
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->data[] = $value;
-        } else {
-            $this->data[$offset] = $value;
-        }
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset ($this->data[$offset]);
-    }
-
-    public function current()
-    {
-        return current($this->data);
-    }
-
-    public function next()
-    {
-        next($this->data);
-    }
-
-    public function key()
-    {
-        return key($this->data);
-    }
-
-    public function valid()
-    {
-        return ($this->current() !== false);
-    }
-
-    public function rewind()
-    {
-        reset($this->data);
-    }
-
 
 }

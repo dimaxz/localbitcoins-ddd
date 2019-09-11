@@ -66,8 +66,8 @@ class LbitcoinAdapter
 
 
     /**
-     * get balance
-     * @return mixed
+     * @return float
+     * @throws LbitcoinException
      */
     public function getWalletBalance() : string
     {
@@ -80,8 +80,8 @@ class LbitcoinAdapter
     }
 
     /**
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|null
+     * @throws LbitcoinException
      */
     public function getCurrencies(): ?array
     {
@@ -91,4 +91,21 @@ class LbitcoinAdapter
         return json_decode($res, true);
     }
 
+
+    /**
+     * @param string $equation_string
+     * @return mixed
+     * @throws LbitcoinException
+     */
+    public function equation(string $equation_string): float {
+        $res = $this->sendQueryPost(sprintf(
+            '/api/equation/%s',
+                $equation_string
+            )
+        );
+
+        $result = json_decode($res, true);
+
+        return (float) $result["data"];
+    }
 }
