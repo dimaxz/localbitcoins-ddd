@@ -9,8 +9,6 @@ use Infrastructure\Repositories\Account;
 use Infrastructure\Repositories\Rate;
 use Symfony\Component\Console\Application;
 
-
-
 require_once __DIR__. '/../bootstrap/prepare.php';
 
 
