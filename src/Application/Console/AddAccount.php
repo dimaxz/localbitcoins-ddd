@@ -50,21 +50,16 @@ class AddAccount extends Command
             $output->writeln("login not set");
             return;
         }
-
         if(!$apikey){
             $output->writeln("Apikey not set");
-            return;
-        }
-
+            return;}
         if(!$secretkey){
             $output->writeln("Secret key not set");
             return;
         }
 
         try{
-
             $this->accountService->add($login,$apikey,$secretkey);
-
             $output->writeln("Acount create success!");
         }
         catch (AccountException $ex){

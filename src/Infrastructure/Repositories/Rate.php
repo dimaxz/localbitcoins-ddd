@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Infrastructure\Repositories;
-
 
 use Domain\Account\AccountCollection;
 use Domain\Rate\Contracts\RateRepositoryInterface;

@@ -7,11 +7,11 @@ use Domain\Account\Contracts\AccountCriteriaInterface;
 use Domain\Account\Contracts\AccountRepositoryInterface;
 use Infrastructure\Adapters\File\FileAdapter;
 use Infrastructure\Adapters\Lbitcoin\LbitcoinAdapter;
-use QueryBuilder\SearchCriteria;
 use Repo\CollectionInterface;
 use Repo\Concrete\AbstractCrudRepository;
 use Repo\EntityInterface;
 use Repo\PaginationInterface;
+use QueryBuilder\SearchCriteria;
 
 /**
  *

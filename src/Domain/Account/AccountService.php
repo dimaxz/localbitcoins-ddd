@@ -28,13 +28,13 @@ class AccountService
     }
 
     /**
-     * @param $login
-     * @param $apikey
-     * @param $secretkey
-     * @return int
+     * @param string $login
+     * @param string $apiKey
+     * @param string $secretKey
+     * @return Account
      * @throws AccountException
      */
-    public function add($login, $apikey, $secretkey): int
+    public function add(string $login, string $apiKey, string $secretKey): Account
     {
 
         $account = $this->repo->findByLogin($login);
@@ -45,8 +45,8 @@ class AccountService
 
         $account = (new Account())
             ->setLogin($login)
-            ->setApikey($apikey)
-            ->setSecretKey($secretkey);
+            ->setApikey($apiKey)
+            ->setSecretKey($secretKey);
 
         $this->repo->save($account);
 
@@ -54,7 +54,7 @@ class AccountService
             throw new AccountException("account not create");
         }
 
-        return $account->getId();
+        return $account;
     }
 
 
@@ -63,7 +63,7 @@ class AccountService
      * @param int $minutes - лимит в минутах при желании можно указать и больше,0 - бесконечно
      * @throws AccountException
      */
-    public function syncBalanceAndRate($login, $minutes = 10)
+    public function syncBalanceAndRate($login, $minutes = 10): void
     {
 
         if (!$account = $this->repo->findByLogin($login)) {
@@ -83,7 +83,7 @@ class AccountService
      * @param Account $account
      * @param int $minutes лимит в минутах при желании можно указать и больше,0 - бесконечно
      */
-    private function process(Account $account, $minutes)
+    private function process(Account $account, $minutes): void
     {
 
         $fstart = $start = $startBalance = time();

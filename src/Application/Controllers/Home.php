@@ -1,8 +1,5 @@
 <?php
-
-
 namespace Application\Controllers;
-
 
 use ActiveTableEngine\Concrete\ColumnTable;
 use ActiveTableEngine\DataTableSimple;
