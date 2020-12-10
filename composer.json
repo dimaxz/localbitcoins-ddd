@@ -2,7 +2,10 @@
   "require": {
     "symfony/var-dumper": "^4.0",
     "symfony/console": "^4.0",
-    "dimaxz/activetable": "^1.0"
+    "dimaxz/activetable": "^1.0",
+    "league/tactician": "*",
+    "league/container": "*",
+    "spaceonfire/command-bus": "^1.2.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

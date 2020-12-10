@@ -8,23 +8,36 @@ use Repo\Concrete\AbstractEntity;
 
 class Account extends AbstractEntity
 {
-
+    /**
+     * @var string
+     */
     protected $login;
-    protected $apikey;
+    /**
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
+     * @var string
+     */
     protected $secretKey;
     /**
      * @var float
      */
     protected $balance = 0;
 
-    public function toArray():array{
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
         return get_object_vars($this);
     }
 
     /**
      * @return float
      */
-    public function getBalance(): string
+    public function getBalance(): float
     {
         return $this->balance;
     }
@@ -33,7 +46,7 @@ class Account extends AbstractEntity
      * @param float $balance
      * @return Account
      */
-    public function setBalance(string $balance): Account
+    public function setBalance(float $balance): Account
     {
         $this->balance = $balance;
         return $this;
@@ -43,52 +56,52 @@ class Account extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getLogin():string
+    public function getLogin(): string
     {
         return $this->login;
     }
 
     /**
-     * @param mixed $login
-     * @return Account
+     * @param string $login
+     * @return $this
      */
-    public function setLogin(string $login)
+    public function setLogin(string $login): self
     {
         $this->login = $login;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getApikey()
+    public function getApiKey(): string
     {
-        return $this->apikey;
+        return $this->apiKey;
     }
 
     /**
-     * @param mixed $apikey
+     * @param string $apiKey
      * @return Account
      */
-    public function setApikey($apikey)
+    public function setApiKey(string $apiKey): self
     {
-        $this->apikey = $apikey;
+        $this->apiKey = $apiKey;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSecretKey()
+    public function getSecretKey():string
     {
         return $this->secretKey;
     }
 
     /**
-     * @param mixed $secretKey
+     * @param string $secretKey
      * @return Account
      */
-    public function setSecretKey($secretKey)
+    public function setSecretKey(string $secretKey): self
     {
         $this->secretKey = $secretKey;
         return $this;

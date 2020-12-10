@@ -2,8 +2,9 @@
 
 namespace Application\Console;
 
-use Domain\Account\AccountService;
-use Domain\Account\Exceptions\AccountException;
+use Application\UseCases\Account\CreateAccount\CreateAccountCommand;
+use Application\UseCases\Account\CreateAccount\CreateAccountException;
+use League\Tactician\CommandBus;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,10 +15,15 @@ class AddAccount extends Command
 {
 
     protected $accountService;
+    protected $commandBus;
 
-    function __construct(AccountService $service)
+    /**
+     * AddAccount constructor.
+     * @param CommandBus $commandBus
+     */
+    public function __construct(CommandBus $commandBus)
     {
-        $this->accountService = $service;
+        $this->commandBus = $commandBus;
         parent::__construct();
     }
 
@@ -42,29 +48,24 @@ class AddAccount extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
 
-        $login = $input->getOption('login');
-        $apikey = $input->getOption('apikey');
-        $secretkey = $input->getOption('secretkey');
-
-        if(!$login){
-            $output->writeln("login not set");
+        if (!$login = $input->getOption('login')) {
+            $output->writeln('login not set');
             return;
         }
-        if(!$apikey){
-            $output->writeln("Apikey not set");
-            return;}
-        if(!$secretkey){
-            $output->writeln("Secret key not set");
+        if (!$apikey = $input->getOption('apikey')) {
+            $output->writeln('Api key not set');
+            return;
+        }
+        if (!$secretkey = $input->getOption('secretkey')) {
+            $output->writeln('Secret key not set');
             return;
         }
 
-        try{
-            $this->accountService->add($login,$apikey,$secretkey);
-            $output->writeln("Acount create success!");
+        try {
+            $this->commandBus->handle(new CreateAccountCommand($login, $apikey, $secretkey));
+            $output->writeln('Account create success!');
+        } catch (CreateAccountException $ex) {
+            $output->writeln('Account not create. ' . $ex->getMessage());
         }
-        catch (AccountException $ex){
-            $output->writeln("Acount not create. " . $ex->getMessage());
-        }
-
     }
 }

@@ -4,7 +4,7 @@
 namespace Domain\Account\Exceptions;
 
 
-class AccountException extends \Exception
+class AccountException extends \RuntimeException
 {
 
 }

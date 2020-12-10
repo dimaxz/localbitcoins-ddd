@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Rate\Contracts;
+namespace Domain\Currency\CurrencyRate\Contracts;
 
 use Repo\RepositoryCriteriaInterface;
 

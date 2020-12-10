@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Domain\Rate;
+namespace Domain\Currency\CurrencyRate;
 
 
 use Domain\Account\Account;
 use Repo\Concrete\AbstractEntity;
 
-class Rate extends AbstractEntity
+class CurrencyRate extends AbstractEntity
 {
 
 
@@ -41,8 +41,8 @@ class Rate extends AbstractEntity
      */
     public function toArray():array{
         $data =  get_object_vars($this);
-        $data["datetime"]   = $this->datetime->getTimestamp();
-        $data["account"]    = $this->account->getLogin();
+        $data['datetime']   = $this->datetime->getTimestamp();
+        $data['account']    = $this->account->getLogin();
         return $data;
     }
 
@@ -58,9 +58,9 @@ class Rate extends AbstractEntity
 
     /**
      * @param float $rate
-     * @return Rate
+     * @return CurrencyRate
      */
-    public function setRate(float $rate): Rate
+    public function setRate(float $rate): CurrencyRate
     {
         $this->rate = $rate;
         return $this;
@@ -76,9 +76,9 @@ class Rate extends AbstractEntity
 
     /**
      * @param \DateTime $datetime
-     * @return Rate
+     * @return CurrencyRate
      */
-    public function setDatetime(\DateTime $datetime): Rate
+    public function setDatetime(\DateTime $datetime): CurrencyRate
     {
         $this->datetime = $datetime;
         return $this;
@@ -94,9 +94,9 @@ class Rate extends AbstractEntity
 
     /**
      * @param Account $account
-     * @return Rate
+     * @return CurrencyRate
      */
-    public function setAccount(Account $account): Rate
+    public function setAccount(Account $account): CurrencyRate
     {
         $this->account = $account;
         return $this;
@@ -112,9 +112,9 @@ class Rate extends AbstractEntity
 
     /**
      * @param string $target
-     * @return Rate
+     * @return CurrencyRate
      */
-    public function setTarget(string $target): Rate
+    public function setTarget(string $target): CurrencyRate
     {
         $this->target = $target;
         return $this;
@@ -130,9 +130,9 @@ class Rate extends AbstractEntity
 
     /**
      * @param string $measure
-     * @return Rate
+     * @return CurrencyRate
      */
-    public function setMeasure(string $measure): Rate
+    public function setMeasure(string $measure): CurrencyRate
     {
         $this->measure = $measure;
         return $this;

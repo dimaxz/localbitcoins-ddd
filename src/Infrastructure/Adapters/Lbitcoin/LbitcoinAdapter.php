@@ -10,14 +10,14 @@ class LbitcoinAdapter
     protected $secret;
     protected $client;
 
-    private $baseApi = "https://localbitcoins.net";
+    private $baseApi = 'https://localbitcoins.net';
 
     /**
      * LbitcoinAdapter constructor.
      * @param string $hmac_auth_key
      * @param string $secret
      */
-    function __construct(string $hmac_auth_key, string $secret)
+    public function __construct(string $hmac_auth_key, string $secret)
     {
         $this->hmac_auth_key = $hmac_auth_key;
         $this->secret = $secret;
@@ -39,8 +39,8 @@ class LbitcoinAdapter
         $addr = $this->baseApi . $pref;
         $queryData = $nnce . $auth_key . $pref . $params;
 //dump($queryData);
-        $signature = strtoupper(hash_hmac("sha256", $queryData, $secrt));
-        $cont = array("Apiauth-Key: " . $auth_key, "Apiauth-Nonce: " . $nnce, "Apiauth-Signature: " . $signature);
+        $signature = strtoupper(hash_hmac('sha256', $queryData, $secrt));
+        $cont = array('Apiauth-Key: ' . $auth_key, 'Apiauth-Nonce: ' . $nnce, 'Apiauth-Signature: ' . $signature);
 //dump($cont);
 //dump($addr);
         $zapr = curl_init($addr);
@@ -106,6 +106,10 @@ class LbitcoinAdapter
 
         $result = json_decode($res, true);
 
-        return (float) $result["data"];
+        if(!isset($result['data'])){
+            new \RuntimeException('data not found, result: ' .$res);
+        }
+
+        return (float) $result['data'];
     }
 }

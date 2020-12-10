@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Domain\Rate\Exceptions;
+namespace Domain\Currency\CurrencyRate\Exceptions;
 
 
 class RateException extends \Exception

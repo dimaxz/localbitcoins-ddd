@@ -1,22 +1,29 @@
 <?php
 
 use Application\Controllers\Home;
-use Domain\Account\AccountService;
-use Infrastructure\Adapters\FIle\FileAdapter;
-use Infrastructure\Repositories\Account;
-use Infrastructure\Repositories\Rate;
+
 
 require_once __DIR__. '/../bootstrap/prepare.php';
 
 
-$controller = new Home(
-    new Account(
-        new FileAdapter(BASEPATH . '/cache/accounts')
-    ),
-    new Rate(
-        new FileAdapter(BASEPATH . '/cache/rates')
-    )
-);
+
+//$container->share(\League\Tactician\CommandBus::class,function (){
+//    return League\Tactician\Setup\QuickStart::create([
+//        \Application\UseCases\BalanceService::class => \Application\UseCases\BalanceService::class
+//    ]);
+//});
+
+$controller = $container->get(Home::class);
+//
+//$controller = new Home(
+//    new Account(
+//        new FileAdapter(BASEPATH . '/cache/accounts')
+//    ),
+//    new Rate(
+//        new FileAdapter(BASEPATH . '/cache/rates')
+//    )
+//    , \League\Tactician\Setup\QuickStart::create($map)
+//);
 
 ?>
 <!DOCTYPE html>

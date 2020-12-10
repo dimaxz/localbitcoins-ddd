@@ -2,18 +2,17 @@
 
 namespace Infrastructure\Repositories;
 
-use Domain\Account\AccountCollection;
-use Domain\Rate\Contracts\RateRepositoryInterface;
-use Domain\Rate\RateCollection;
+
+use Domain\Currency\CurrencyRate\Contracts\RateRepositoryInterface;
+use Domain\Currency\CurrencyRate\CurrencyRate;
+
 use Infrastructure\Adapters\FIle\FileAdapter;
 use Infrastructure\Adapters\Lbitcoin\LbitcoinAdapter;
-use QueryBuilder\SearchCriteria;
 use Repo\CollectionInterface;
-use Repo\Concrete\AbstractCrudRepository;
 use Repo\EntityInterface;
 use Repo\PaginationInterface;
 
-class Rate extends AbstractCrudRepository implements RateRepositoryInterface
+class Rate implements RateRepositoryInterface
 {
     protected $fileAdapter;
 
@@ -26,35 +25,45 @@ class Rate extends AbstractCrudRepository implements RateRepositoryInterface
         $this->fileAdapter = $fileAdapter;
     }
 
-    protected function modifyCriteria(PaginationInterface $criteria, SearchCriteria $dbCriteria)
+    public function delete(\Repo\EntityInterface $entity): void
     {
-        // TODO: Implement modifyCriteria() method.
+        // TODO: Implement delete() method.
     }
 
+    public function findById(int $id): ?EntityInterface
+    {
+        // TODO: Implement findById() method.
+    }
+
+    public function count(?PaginationInterface $criteria): int
+    {
+        // TODO: Implement count() method.
+    }
+
+
     /**
-     * @return \Domain\Rate\Rate
+     * @return EntityInterface
      */
     public static function createEntity(): EntityInterface
     {
-        return new \Domain\Rate\Rate();
+        return new CurrencyRate();
     }
 
     /**
      * @param array $data
-     * @return \Domain\Rate\Rate
-     * @throws \Exception
+     * @return EntityInterface
      */
     public static function buildEntityFromArray(array $data): EntityInterface
     {
         return
-            (new \Domain\Rate\Rate())
-                ->setId($data["id"])
-                ->setDatetime(\DateTime::createFromFormat("U", $data["datetime"]))
-                ->setRate($data["rate"])
-                ->setTarget($data["target"])
-                ->setMeasure($data["measure"])
+            (new CurrencyRate())
+                ->setId($data['id'])
+                ->setDatetime(\DateTime::createFromFormat('U', $data['datetime']))
+                ->setRate($data['rate'])
+                ->setTarget($data['target'])
+                ->setMeasure($data['measure'])
                 ->setAccount(
-                    (new \Domain\Account\Account())->setLogin($data["account"])
+                    (new \Domain\Account\Account())->setLogin($data['account'])
                 );
     }
 
@@ -69,14 +78,14 @@ class Rate extends AbstractCrudRepository implements RateRepositoryInterface
 
         $items = $this->fileAdapter->getAll();
 
-        uasort($items, function($a, $b) use ($criteria){
-            if ($a["id"] == $b["id"]) {
+        uasort($items, function ($a, $b) use ($criteria) {
+            if ($a['id'] === $b['id']) {
                 return 0;
             }
-            if($criteria->getSortByid()==="ASC"){
-                return ($a["id"] < $b["id"]) ? -1 : 1;
+            if ($criteria->getSortByid() === 'ASC') {
+                return ($a['id'] < $b['id']) ? -1 : 1;
             }
-            return ($a["id"] > $b["id"]) ? -1 : 1;
+            return ($a['id'] > $b['id']) ? -1 : 1;
         });
 
         foreach ($items as $item) {
@@ -90,7 +99,7 @@ class Rate extends AbstractCrudRepository implements RateRepositoryInterface
 
 
     /**
-     * @param \Domain\Rate\Rate $rate
+     * @param EntityInterface $rate
      * @throws \Infrastructure\Adapters\FIle\FileAdapterException
      */
     public function save(EntityInterface $rate): void
@@ -106,22 +115,24 @@ class Rate extends AbstractCrudRepository implements RateRepositoryInterface
 
     /**
      * @param \Domain\Account\Account $account
-     * @return \Domain\Rate\Rate
+     * @param string $target
+     * @param string $measure
+     * @return CurrencyRate
      * @throws \Infrastructure\Adapters\FIle\FileAdapterException
      * @throws \Infrastructure\Adapters\Lbitcoin\LbitcoinException
      */
-    public function createRate(\Domain\Account\Account $account): \Domain\Rate\Rate
+    public function createRate(\Domain\Account\Account $account, string $target, string $measure): CurrencyRate
     {
 
         $lBitIcoin = new LbitcoinAdapter($account->getApikey(), $account->getSecretKey());
 
-        $rateValue = $lBitIcoin->equation("max(bitstampusd_avg,bitfinexusd_avg)*usd_in_rub");
+        $rateValue = $lBitIcoin->equation('max(bitstampusd_avg,bitfinexusd_avg)*usd_in_rub');
 
-        $rate = (new \Domain\Rate\Rate())
+        $rate = (new CurrencyRate())
             ->setRate($rateValue)
             ->setDatetime(new \DateTime())
-            ->setTarget("usd")
-            ->setMeasure("rub")
+            ->setTarget($target)
+            ->setMeasure($measure)
             ->setAccount($account);
 
         $this->save($rate);

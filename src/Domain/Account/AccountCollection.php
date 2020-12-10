@@ -10,6 +10,9 @@ use Repo\Concrete\AbstractCollection;
  */
 class AccountCollection extends AbstractCollection
 {
+    /**
+     * @return string
+     */
     protected function getEntityClass(): string
     {
         return Account::class;
