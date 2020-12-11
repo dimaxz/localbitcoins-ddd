@@ -37,7 +37,6 @@ class CreateAccountHandler
             //все хорошо, для данного кейса это нормально, идем дальше
         }
 
-
         $account = (new Account())
             ->setLogin($login)
             ->setApikey($apiKey)
