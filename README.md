@@ -6,6 +6,7 @@
 ## Проектируем
 
 
+![Test Image 1](https://github.com/dimaxz/localbitcoins-ddd/master/docs/use-case.png)
 
 ## Что получилось
 
