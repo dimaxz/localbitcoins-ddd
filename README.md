@@ -5,8 +5,8 @@
 
 ## Проектируем
 
-
-![Test Image 1](https://github.com/dimaxz/localbitcoins-ddd/master/docs/use-case.png)
+![варианты использования](./docs/use-cases.png)
+![event storming](./docs/event-storming.png)
 
 ## Что получилось
 
